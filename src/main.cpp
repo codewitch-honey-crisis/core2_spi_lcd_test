@@ -231,6 +231,10 @@ extern "C" void app_main() {
 #endif
 }
 void loop() {
+    // timestamp for start
+    uint32_t ms = millis();
+    static char szfps[64]={0};
+    // render the frame    
     static bool toggle = false;
     for(int y = 0;y<LCD_HEIGHT;y+=24) {
         lcd_wait_dma();
@@ -241,10 +245,7 @@ void loop() {
         toggle = !toggle;
     }
     toggle = !toggle;
-    // timestamp for start
-    uint32_t ms = millis();
-    static char szfps[64]={0};
-    // render the frame    
+   
     
     
     // The following keeps track of statistics
@@ -258,7 +259,7 @@ void loop() {
         fps_ts = ms;
         
         if(frames==0) {
-            snprintf(szfps, sizeof(szfps), "fps: < 1, total: %d ms",(int)total_ms);
+            snprintf(szfps, sizeof(szfps), "fps: < 1, %d ms", (int)total_ms);
         } else {
             snprintf(szfps, sizeof(szfps), "fps: %d, avg: %d ms", (int)frames,(int)total_ms/frames);
         }
